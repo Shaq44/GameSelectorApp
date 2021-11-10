@@ -20,6 +20,7 @@ export default class Search extends React.Component{
     }
 
     render(){
+        
         return(
             <form onSubmit={this.handleSubmit}>
                 <input 
