@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import Search from './Components/Search';
+import Collection from './Components/Collection';
 import{initializeApp} from "firebase/app";
-import{getFirestore, collection, getDocs} from 'firebase/firestore';
+import{getFirestore, collection, getDocs,Doc} from 'firebase/firestore';
 import './App.css';
 
 //This is my webapps Firebase configutration
@@ -23,6 +24,7 @@ const db = getFirestore(app);
       websiteName: 'Game Selector',
       getGameData:[],
       games:[],
+      buy:false,
     };
     
 
@@ -33,7 +35,7 @@ const db = getFirestore(app);
 
    componentDidMount(){
      this.getGameData();
-    // this.collectGames();
+    this.readGames();
    }
 
    getGameData = async gameName =>{
@@ -50,23 +52,32 @@ const db = getFirestore(app);
 
     }
 
-    collectGames = async () =>{
+    readGames = async () =>{
 
-      const gameCol = collection(db,"games")
-      const gamesSnapshot = await getDocs()
+      const gameCol = collection(db,'GameLibrary')
+      const gamesSnapshot = await getDocs(gameCol)
+      console.log("Games",gamesSnapshot);
 
-      const games = [];
+     const game = [];
       gamesSnapshot.forEach(doc =>{
-        const game = {
+        console.log(doc.data());
+        const videoGame = {
           id: doc.id,
           name: doc.data().name
         }
-        games.push(game)
+        game.push(videoGame)
+        
 
       })
       this.setState({
-        games:games
+        games:game
       })
+
+      console.log(this.state.games);
+    }
+
+    createGame = newGame =>{
+
     }
 
     
@@ -96,16 +107,8 @@ const gamesUI = this.state.getGameData.map((game)=>{
         <Search getGameData={this.getGameData}/>
         <div className="card rounded shadow p-3" id="container">
         {gamesUI}
-        <div className="container">
-            <div className="box2">
-              <i className="fas fa-shopping-cart" id="buy" ></i>
-              <h3>Buy</h3>
-            </div>
-            <div className="box3">
-              <i className="fas fa-list" id="wish"></i>
-              <h3>WishList</h3>
-            </div>
-        </div>
+        < Collection createGame={this.createGame}/>
+       
       
         </div>
 
