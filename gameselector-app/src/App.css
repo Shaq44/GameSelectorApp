@@ -44,3 +44,58 @@ h1{
 .box{
   text-align:center;
 }
+
+img{
+  height: 100;
+  width:600px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.box2{
+  margin:10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+}
+
+.box3{
+  margin:10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+}
+
+#buy{
+  
+  margin:10px;
+  
+}
+
+#wish{
+  margin:10px;
+  
+
+}
+
+h3{
+  font-family: "Audiowide";
+  
+  
+}
+
+.container{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+
+

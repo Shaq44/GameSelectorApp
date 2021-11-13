@@ -1,14 +1,28 @@
 import React,{Component} from 'react';
 import Search from './Components/Search';
-//import{initializeApp} from "firebase/app";
-//import{getFirestore, collection, getDocs} from 'firebase/firestore';
+import{initializeApp} from "firebase/app";
+import{getFirestore, collection, getDocs} from 'firebase/firestore';
 import './App.css';
 
+//This is my webapps Firebase configutration
+const firebaseConfig = {
+  apiKey: "AIzaSyBIiuTFdHgo_bPINlu0T79rp8fmMlFi-dw",
+  authDomain: "game-selector-app-51630.firebaseapp.com",
+  projectId: "game-selector-app-51630",
+  storageBucket: "game-selector-app-51630.appspot.com",
+  messagingSenderId: "411624489114",
+  appId: "1:411624489114:web:d5c349bce80da24c5f9f23"
+};
+
+//This initializes Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
  export default class App extends Component {
    
     state = {
       websiteName: 'Game Selector',
-      getGameData:{},
+      getGameData:[],
+      games:[],
     };
     
 
@@ -19,6 +33,7 @@ import './App.css';
 
    componentDidMount(){
      this.getGameData();
+    // this.collectGames();
    }
 
    getGameData = async gameName =>{
@@ -29,51 +44,44 @@ import './App.css';
       const parsedResponse = await response.json();
     console.log(parsedResponse.results);
       this.setState({
-        getGameData:parsedResponse
+        getGameData:parsedResponse.results
       })
-      const games = this.state.getGameData.results;
+  
 
-        console.log(games);
-      //this logs info from the results data of getGameData in state in the console
-      games.map((game)=>{
-        console.log(game.name);
-        console.log(game.background_image)
-        return(
-          <div>
-            <div>{game.name}</div>
-            <img src={game.background_image} alt="pic"/>
-          </div>
-        )
-        
-        
-      });
+    }
 
+    collectGames = async () =>{
+
+      const gameCol = collection(db,"games")
+      const gamesSnapshot = await getDocs()
+
+      const games = [];
+      gamesSnapshot.forEach(doc =>{
+        const game = {
+          id: doc.id,
+          name: doc.data().name
+        }
+        games.push(game)
+
+      })
+      this.setState({
+        games:games
+      })
     }
 
     
 
    render(){
   
-  
 
-    //this shows an empty object or array depending on value in state
-  //console.log(this.state.getGameData);
-
-
-
-  //this shows state undefined and then rerenders an empty array 
-  //console.log(this.state.getGameData.results);
-
-
-/*const games = this.state.getGameData.results.map((game)=>{
-  console.log(game.name);
-  console.log(game.background_image)
+const gamesUI = this.state.getGameData.map((game)=>{
   return(
     <div>
-      <div>name: {game.name}</div>
+      <div>{game.name}</div>
+      <img src={game.background_image} alt="pic"/>
     </div>
   )
-});*/
+});
     
      
     
@@ -87,7 +95,18 @@ import './App.css';
         <h1>{this.state.websiteName}</h1>
         <Search getGameData={this.getGameData}/>
         <div className="card rounded shadow p-3" id="container">
-        
+        {gamesUI}
+        <div className="container">
+            <div className="box2">
+              <i className="fas fa-shopping-cart" id="buy" ></i>
+              <h3>Buy</h3>
+            </div>
+            <div className="box3">
+              <i className="fas fa-list" id="wish"></i>
+              <h3>WishList</h3>
+            </div>
+        </div>
+      
         </div>
 
       </main>
