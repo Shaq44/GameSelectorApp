@@ -28,7 +28,10 @@ export default class Search extends React.Component{
                     value={this.state.gameSearch}
 
                 />
-                <button>Search</button>
+              
+                    
+                <button id="sea">Search</button>
+            
 
             </form>
         )

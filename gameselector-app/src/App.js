@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
+import {Route, Routes, NavLink ,Switch, history} from 'react-router-dom'
 import Search from './Components/Search';
 import Collection from './Components/Collection';
 import{initializeApp} from "firebase/app";
-import{getFirestore, collection, getDocs,Doc} from 'firebase/firestore';
+import{getFirestore, collection, getDocs, doc ,addDoc, deleteDoc, setDoc} from 'firebase/firestore';
+import UserList from './Pages/userList';
 import './App.css';
 
 //This is my webapps Firebase configutration
@@ -18,14 +20,15 @@ const firebaseConfig = {
 //This initializes Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const gameCol = collection(db,"Games");
  export default class App extends Component {
    
     state = {
       websiteName: 'Game Selector',
       getGameData:[],
-      games:[],
-      buy:false,
     };
+
+    
     
 
 
@@ -35,7 +38,7 @@ const db = getFirestore(app);
 
    componentDidMount(){
      this.getGameData();
-    this.readGames();
+     this.readGames();
    }
 
    getGameData = async gameName =>{
@@ -44,7 +47,7 @@ const db = getFirestore(app);
       const response = await fetch(gameAppUrl);
 
       const parsedResponse = await response.json();
-    console.log(parsedResponse.results);
+    //console.log(parsedResponse.results);
       this.setState({
         getGameData:parsedResponse.results
       })
@@ -53,30 +56,55 @@ const db = getFirestore(app);
     }
 
     readGames = async () =>{
+      
+      console.log('collection',gameCol);
+      const gamesSnapshot =  await getDocs(gameCol);
+      
+      console.log('Games',gamesSnapshot);
 
-      const gameCol = collection(db,'GameLibrary')
-      const gamesSnapshot = await getDocs(gameCol)
-      console.log("Games",gamesSnapshot);
-
-     const game = [];
+     const userList = [];
       gamesSnapshot.forEach(doc =>{
-        console.log(doc.data());
+        console.log(doc.data().name);
         const videoGame = {
           id: doc.id,
           name: doc.data().name
         }
-        game.push(videoGame)
+        userList.push(videoGame)
         
 
-      })
+      });
       this.setState({
-        games:game
-      })
+        getGameData:userList
+      });
 
-      console.log(this.state.games);
+      console.log(this.state.getGameData);
     }
 
-    createGame = newGame =>{
+    createGame = async newGame =>{
+      await addDoc(gameCol,{
+        name:newGame
+      });
+
+      this.readGames();
+
+    }
+
+    removeGame = async id =>{
+     // const gameCol = collection(db,"GameLibrary");
+
+      const gameDoc = doc(gameCol,id);
+
+      await deleteDoc(gameDoc);
+
+      this.readGames();
+    }
+
+    updateOwnerList = async videoGame =>{
+     const gameDoc = doc(gameCol,videoGame.id);
+
+     await setDoc(gameDoc,{name:videoGame.name});
+
+     this.readGames();
 
     }
 
@@ -98,21 +126,49 @@ const gamesUI = this.state.getGameData.map((game)=>{
     
     
      return(
-       
+    
+    <div className="App">
 
+      <header>
+        <nav>
+            <NavLink exact to ='/userList' id="link">
+                      Owners List
+            </NavLink>
+            <NavLink exact to='/Home' id="home">
+
+              Home
+            </NavLink>
+
+        </nav> 
+
+
+      </header>
+
+          <main className="box">
+
+            <div>
+              <Switch>
+                <Route exact path="/"> <App/></Route>
+                <Route exact path="/UserList" > <UserList/> </Route>
+              
+              </Switch>  
+            </div>
+
+              <h1>{this.state.websiteName}</h1>
+            
+              <Search getGameData={this.getGameData}/>
+              <div className="card rounded shadow p-3" id="container">
+              {gamesUI}
+              < Collection createGame={this.createGame}/>
+            
+
+              </div>
+
+          </main>
+    </div>
      
 
-      <main className="box">
-        <h1>{this.state.websiteName}</h1>
-        <Search getGameData={this.getGameData}/>
-        <div className="card rounded shadow p-3" id="container">
-        {gamesUI}
-        < Collection createGame={this.createGame}/>
-       
       
-        </div>
-
-      </main>
      );
    }
 
