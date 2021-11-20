@@ -3,7 +3,7 @@ import React from "react";
 
 class Collection extends React.Component{
     state={
-        gameList:'',
+        newGame:'',
         buy: true,
     }
 
@@ -13,20 +13,22 @@ class Collection extends React.Component{
         })
     }
 
-    handleSubmit = e =>{
+    buyGame = e =>{
         e.preventDefault();
-        this.props.createGames(this.state.gameList);
+        this.props.createGame(this.state.newGame);
         this.setState({
-            gameList:e.target.value
+            newGame:''
         })
     }
+
+  
 
     render() {
         return (
                      <div className="container">
-            <div className="box2">
-              <i className="fas fa-shopping-cart" id="buy" ></i>
-              <h3>Buy</h3>
+            <div className="box2" >
+              <i className="fas fa-shopping-cart" id="buy" onClick={this.buyGame} ></i>
+              <h3 onClick={this.buyGame}>Buy</h3>
             </div>
         </div>
         )
