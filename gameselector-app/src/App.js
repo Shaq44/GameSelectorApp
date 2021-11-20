@@ -69,7 +69,7 @@ const userCol = collection(db,'OwnersGames');
         ownerGames:userList
       });
 
-      //console.log(this.state.ownerGames);
+      console.log(this.state.ownerGames);
 
 
     }

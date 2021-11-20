@@ -43,6 +43,7 @@ export default class SelectGame extends React.Component{
   
       }
 
+    
       
     createGame = async newGame =>{
         this.state.getGameData.map((vg)=>{
