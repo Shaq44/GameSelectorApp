@@ -1,6 +1,7 @@
 import React from "react";
 import { initializeApp } from "@firebase/app";
-import { getFirestore,collection, getDocs } from "@firebase/firestore";
+import { getFirestore,collection, getDocs, deleteDoc,doc } from "@firebase/firestore";
+import RemoveGame from "../Components/GameList";
 
 
 //This is my webapps Firebase configutration
@@ -21,12 +22,12 @@ const userCol = collection(db,'OwnersGames');
 export default class UserList extends React.Component{
 state={
     webpage:'Owned List',
-    gameList: []
+    GameList: [],
 
 }
 
 componentDidMount(){
-    this.readGames();
+   this.readGames()
 }
 
 readGames = async () =>{
@@ -35,17 +36,25 @@ const gameSnapshot = await getDocs(userCol);
 const userGames = [];
 gameSnapshot.forEach(doc=>{
     const videoGame = {
-       id: doc.id,
+        id:doc.id,
         name: doc.data().name
     }
+    
     userGames.push(videoGame)
 
 })
-console.log(userGames)
 this.setState({
-    gameList:userGames
+    GameList:userGames
 })
+//console.log(this.state.gameList)
 
+}
+
+removeGame = async id=>{
+   const gameDoc =  await doc(userCol,id);
+     deleteDoc(gameDoc);
+
+     this.readGames();
 }
 
 
@@ -53,22 +62,25 @@ this.setState({
 
 
 render(){
-    const gameInfo = this.state.gameList.map((game)=>{
-        <ul>
-            Name: {game.name}
-
-        </ul>
+    this.state.GameList.map(game=>{
         console.log(game.name)
-        
     });
-   // console.log(this.state.gameList)
+
+    const gameInfo = this.state.GameList.map(games =>{
+        return(
+            <li key={games.id}>
+                {games.name}
+                
+            </li>
+        )
+    })
 
         return(
             <main>
                 <h1>{this.state.webpage}</h1>
-                <div className="card rounded shadow p-3">
-                  {gameInfo}    
-                    
+                <div className="col-12">
+                <RemoveGame GameList={this.state.GameList} removeGame={this.removeGame}/>
+                
                 </div>
             </main>
         );

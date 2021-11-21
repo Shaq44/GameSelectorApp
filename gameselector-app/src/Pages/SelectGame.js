@@ -28,6 +28,10 @@ export default class SelectGame extends React.Component{
         getGameData:[],
     }
 
+    componentDidMount(){
+      this.getGameData()
+    }
+
     getGameData = async gameName =>{
         let gameAppUrl = `https://api.rawg.io/api/games?search_exact&search=${gameName}&key=5e83a4fe47864da7a00aac376124e44f&dates=2019-09-01,2019-09-30&platforms=18,1,7`;
       
