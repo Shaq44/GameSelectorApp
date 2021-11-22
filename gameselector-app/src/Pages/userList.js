@@ -1,6 +1,6 @@
 import React from "react";
 import { initializeApp } from "@firebase/app";
-import { getFirestore,collection, getDocs, deleteDoc,doc } from "@firebase/firestore";
+import { getFirestore,collection, getDocs, deleteDoc,doc, setDoc } from "@firebase/firestore";
 import RemoveGame from "../Components/GameList";
 
 
@@ -57,29 +57,31 @@ removeGame = async id=>{
      this.readGames();
 }
 
+updateGame = async game =>{
+    const gameDoc =  doc(userCol,game.id);
+
+    console.log(game);
+    await setDoc(gameDoc,{
+        name: game.name
+    })
+
+    this.readGames();
+
+
+}
+
 
 
 
 
 render(){
-    this.state.GameList.map(game=>{
-        console.log(game.name)
-    });
-
-    const gameInfo = this.state.GameList.map(games =>{
-        return(
-            <li key={games.id}>
-                {games.name}
-                
-            </li>
-        )
-    })
+   
 
         return(
             <main>
                 <h1>{this.state.webpage}</h1>
                 <div className="col-12">
-                <RemoveGame GameList={this.state.GameList} removeGame={this.removeGame}/>
+                <RemoveGame GameList={this.state.GameList} removeGame={this.removeGame} updateGame={this.updateGame}/>
                 
                 </div>
             </main>
