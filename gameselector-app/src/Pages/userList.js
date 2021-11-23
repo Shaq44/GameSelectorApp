@@ -1,7 +1,8 @@
 import React from "react";
 import { initializeApp } from "@firebase/app";
-import { getFirestore,collection, getDocs, deleteDoc,doc, setDoc } from "@firebase/firestore";
+import { getFirestore,collection, getDocs, deleteDoc,doc, setDoc, addDoc, connectFirestoreEmulator } from "@firebase/firestore";
 import RemoveGame from "../Components/GameList";
+import GameList from "../Components/GameList";
 
 
 //This is my webapps Firebase configutration
@@ -17,7 +18,7 @@ const firebaseConfig = {
 //This initializes Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const userCol = collection(db,'OwnersGames');
+const userCol = collection(db,'UserList');
 
 export default class UserList extends React.Component{
 state={
@@ -37,18 +38,21 @@ const userGames = [];
 gameSnapshot.forEach(doc=>{
     const videoGame = {
         id:doc.id,
-        name: doc.data().name
+        name: doc.data().name,
+        Favorite: doc.data().Favorite
     }
     
     userGames.push(videoGame)
 
 })
 this.setState({
-    GameList:userGames
+    GameList:userGames,
 })
-//console.log(this.state.gameList)
+console.log(this.state.GameList)
 
 }
+
+
 
 removeGame = async id=>{
    const gameDoc =  await doc(userCol,id);
@@ -59,13 +63,15 @@ removeGame = async id=>{
 
 updateGame = async game =>{
     const gameDoc =  doc(userCol,game.id);
+ 
 
-    console.log(game);
     await setDoc(gameDoc,{
-        name: game.name
+        name:game.name,
+        Favorite:game.Favorite
     })
 
     this.readGames();
+   
 
 
 }
@@ -75,13 +81,16 @@ updateGame = async game =>{
 
 
 render(){
+    this.state.GameList.map(game=>{
+        console.log(game.Favorite);
+    })
    
 
         return(
             <main>
                 <h1>{this.state.webpage}</h1>
                 <div className="col-12">
-                <RemoveGame GameList={this.state.GameList} removeGame={this.removeGame} updateGame={this.updateGame}/>
+                <RemoveGame GameList={this.state.GameList} removeGame={this.removeGame} updateGame={this.updateGame} isFavorite={this.createIsFavorite}/>
                 
                 </div>
             </main>

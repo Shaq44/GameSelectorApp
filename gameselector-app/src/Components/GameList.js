@@ -4,7 +4,8 @@ export default class GameList extends React.Component{
     state={
         updateGames:{
             id:'',
-            name:''
+            name:'',
+            isFavorite:true,
         },
         showUpdateInput:false,
     }
@@ -13,10 +14,13 @@ export default class GameList extends React.Component{
         this.setState({
             updateGames:{
                 id:this.state.updateGames.id,
-                name:e.target.value,
+                name:this.state.updateGames.name,
+                Favorite:true,
             }
         })
     }
+
+    
 
     handleSubmit = e =>{
         e.preventDefault();
@@ -30,7 +34,8 @@ export default class GameList extends React.Component{
 
             updateGames: {
                 id:gameEdit.id,
-                name:gameEdit.name
+                name:gameEdit.name,
+                Favorite:gameEdit.Favorite
             }
         })
     }
@@ -41,13 +46,19 @@ export default class GameList extends React.Component{
         })
     }
 
+    showFavorite = () =>{
+        console.log("Favorite Game")
+    }
+
     render () {
+        console.log(this.state.updateGames)
         let update = this.props.GameList.map(game=>{
             return(
                 <li className = "list-group-item" key={game.id}>
                     <div className="d-flex justify-content-between py-2">
                         <div>
                             {game.name}
+                            {game.isFavorite}
                         </div>
                         <div>
                             <i onClick={() => this.showForm(game)} className="fas fa-edit mr-2"></i>
@@ -57,25 +68,22 @@ export default class GameList extends React.Component{
                         
                             {this.state.showUpdateInput && this.state.updateGames.id === game.id ? <form onSubmit={this.handleSubmit} className="form-inline">
                             
-                            <input className="form-control"
-                            onChange={this.handleChange}
-
-                            value={this.state.updateGames.name}
-            
-
-                            />
-
-                            <button type="submit" className="btn btn-primary form-control mx-2">
+                            Favorite:<input type="checkbox" onSubmit={this.handleSubmit} onChange={this.handleChange} value={this.state.updateGames.isFavorite}/>
+                            
+                            <button onClick={this.showFavorite} type="submit" className="btn btn-primary form-control mx-2">
                                 Update
                             </button>
 
                             <button onClick={this.hideForm} className="btn btn-secondary form-control">
                                 cancel
                             </button>
+                           
                             </form>
                             :null
 
                             }
+
+               
                         
                         </div>
     
@@ -117,4 +125,14 @@ export default class GameList extends React.Component{
                 {deleteGame}
             </ul>
         </div>
+
+
+        
+                            <input className="form-control"
+                            onChange={this.handleChange}
+
+                            value={this.state.updateGames.name}
+            
+
+                            />
     ) */
