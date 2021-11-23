@@ -7,6 +7,7 @@ import{getFirestore, collection, getDocs, doc ,addDoc, deleteDoc, setDoc} from '
 import SelectGame from './Pages/SelectGame'
 import UserList from './Pages/UserList';
 import './App.css';
+import Home from './Pages/Home';
 
 //This is my webapps Firebase configutration
 const firebaseConfig = {
@@ -29,72 +30,6 @@ const userCol = collection(db,'OwnersGames');
       getGameData:[],
       ownerGames:[],
     };
-
-    
-    
-
-
-  
-   
-  
-
-   /*componentDidMount(){
-     //this.getGameData();
-     this.readGames();
-   }*/
-
-  
-
-    
-
-    readGames = async () =>{
-      
-     // console.log('collection',userCol);
-     const gamesSnapshot =  await getDocs(userCol);
-     // console.log('games',gamesSnapshot);
-    
-
-     const userList = [];
-      gamesSnapshot.forEach(doc =>{
-       // console.log(doc.data().name);
-        const videoGame = {
-          id: doc.id,
-          name: doc.data().name
-        }
-        userList.push(videoGame)
-        
-
-      })
-      this.setState({
-        ownerGames:userList
-      });
-
-      console.log(this.state.ownerGames);
-
-
-    }
-    
-
-  
-
-    removeGame = async id =>{
-     
-
-      const gameDoc = doc(userCol,id);
-
-      await deleteDoc(gameDoc);
-
-      this.readGames();
-    }
-
-    updateOwnerList = async videoGame =>{
-     const gameDoc = doc(userCol,videoGame.id);
-
-     await setDoc(gameDoc,{name:videoGame.name});
-
-     this.readGames();
-
-    }
 
     
 
@@ -124,6 +59,10 @@ const userCol = collection(db,'OwnersGames');
                       Select Game
                     </NavLink>
 
+                    <NavLink exact to='/Home' id="hom">
+                      Home
+                    </NavLink>
+
                 </nav> 
 
 
@@ -137,6 +76,7 @@ const userCol = collection(db,'OwnersGames');
 
                         <Route exact path="/userList" > <UserList/> </Route>
                         <Route exact path="/SelectGame"><SelectGame/></Route>
+                        <Route exact path="/Home"><Home/></Route>
 
                       </Switch>
                       

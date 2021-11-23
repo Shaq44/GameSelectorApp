@@ -104,6 +104,27 @@ h3{
   margin:10px;
 }
 
+#hom{
+  font-family: "Audiowide";
+}
+
+.header{
+  text-align: center;
+  font-size: 8em;
+  color: #fff;
+  text-shadow:
+    /* White glow */
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    /* Green glow */
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+
 
 
 

@@ -54,13 +54,13 @@ export default class GameList extends React.Component{
         console.log(this.state.updateGames)
         let update = this.props.GameList.map(game=>{
             return(
-                <li className = "list-group-item" key={game.id}>
+                <ul className = "list-group-flush" key={game.id}>
                     <div className="d-flex justify-content-between py-2">
                         <div>
                             {game.name}
                             {game.isFavorite}
                         </div>
-                        <div>
+                        <div className="list-group-flush">
                             <i onClick={() => this.showForm(game)} className="fas fa-edit mr-2"></i>
                             <i onClick={()=>this.props.removeGame(game.id)} className="far fa-trash-alt"></i>
                         
@@ -69,7 +69,7 @@ export default class GameList extends React.Component{
                             {this.state.showUpdateInput && this.state.updateGames.id === game.id ? <form onSubmit={this.handleSubmit} className="form-inline">
                             
                             Favorite:<input type="checkbox" onSubmit={this.handleSubmit} onChange={this.handleChange} value={this.state.updateGames.isFavorite}/>
-                            
+
                             <button onClick={this.showFavorite} type="submit" className="btn btn-primary form-control mx-2">
                                 Update
                             </button>
@@ -88,12 +88,12 @@ export default class GameList extends React.Component{
                         </div>
     
                     </div>
-                </li>
+                </ul>
             )
         })
         return(
             <div>
-                <ul className="list-group">
+                <ul className="list-group-flush">
                     {update}
                 </ul>
             </div>
