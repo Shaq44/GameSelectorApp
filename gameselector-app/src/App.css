@@ -153,6 +153,13 @@ h3{
   justify-content: center;
 }
 
+.page{
+  display: flex;
+  flex-direction: coulumn;
+  justify-content: center;
+  color:white;
+}
+
 
 
 

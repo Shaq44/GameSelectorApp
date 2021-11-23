@@ -50,7 +50,7 @@ import Home from './Pages/Home';
 
                   <main className="box">
 
-                    <div>
+                    <div className="page">
                       <Switch>
 
                         <Route exact path="/userList" > <UserList/> </Route>
