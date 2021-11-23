@@ -12,6 +12,7 @@ class Collection extends React.Component{
     buyGame = e =>{
         e.preventDefault();
         this.props.createGame(this.state.newGame);
+        alert("game has been bought");
         this.setState({
             newGame:''
         })
@@ -24,7 +25,7 @@ class Collection extends React.Component{
         <div className="container">
             <div className="box2" >
               <i className="fas fa-shopping-cart" id="buy" onClick={this.buyGame} ></i>
-              <h3 onClick={this.buyGame}>Buy</h3>
+              <h3 onClick={this.buyGame} id="label">Buy</h3>
             </div>
         </div>
         )

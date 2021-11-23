@@ -51,6 +51,7 @@ body{
 
 h1{
   font-family:"Audiowide";
+  text-align: center;
 }
 
 .box{
@@ -60,6 +61,13 @@ h1{
 img{
   height: 100;
   width:600px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.pic{
+  height:100%;
+  width:300px;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -81,7 +89,10 @@ img{
   margin:10px;
   outline:none;
   
+  
 }
+
+
 
 
 h3{
@@ -123,6 +134,23 @@ h3{
     0 0 92px #0fa,
     0 0 102px #0fa,
     0 0 151px #0fa;
+}
+
+
+
+.box2{
+  width:50px;
+  opacity:0.5;
+}
+
+.box2:hover{
+  opacity: 1;
+}
+
+#gameContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 

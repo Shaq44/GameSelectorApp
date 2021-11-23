@@ -18,7 +18,7 @@ const firebaseConfig = {
 //This initializes Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const userCol = collection(db,'UserList');
+const userCol = collection(db,'GamersList');
 
 
 
@@ -50,13 +50,18 @@ export default class SelectGame extends React.Component{
     
       
     createGame = async newGame =>{
-        this.state.getGameData.map((vg)=>{
+      let gameImage = '';
+       this.state.getGameData.map((vg)=>{
          newGame = vg.name;
+         gameImage = vg.background_image;
+        
          console.log(newGame);
        })
          await addDoc(userCol,{
            name:newGame,
-           Favorite:false
+           image:gameImage,
+           Favorite:false,
+           
          });
  
      }

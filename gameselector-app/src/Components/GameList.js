@@ -5,6 +5,7 @@ export default class GameList extends React.Component{
         updateGames:{
             id:'',
             name:'',
+            image:'',
             isFavorite:true,
         },
         showUpdateInput:false,
@@ -15,6 +16,7 @@ export default class GameList extends React.Component{
             updateGames:{
                 id:this.state.updateGames.id,
                 name:this.state.updateGames.name,
+                image:this.state.updateGames.image,
                 Favorite:true,
             }
         })
@@ -25,6 +27,7 @@ export default class GameList extends React.Component{
     handleSubmit = e =>{
         e.preventDefault();
         this.props.updateGame(this.state.updateGames);
+        alert("Added to favorite");
         this.hideForm();
     }
 
@@ -35,6 +38,7 @@ export default class GameList extends React.Component{
             updateGames: {
                 id:gameEdit.id,
                 name:gameEdit.name,
+                image:gameEdit.image,
                 Favorite:gameEdit.Favorite
             }
         })
@@ -55,9 +59,10 @@ export default class GameList extends React.Component{
         let update = this.props.GameList.map(game=>{
             return(
                 <ul className = "list-group-flush" key={game.id}>
-                    <div className="d-flex justify-content-between py-2">
-                        <div>
-                            {game.name}
+                    <div className="d-flex justify-content-between py-2" id="gameContainer">
+                        <div className="card">
+                           <h3> {game.name}</h3>
+                            <img src={game.image} alt="pic" className="pic"/>
                             {game.isFavorite}
                         </div>
                         <div className="list-group-flush">

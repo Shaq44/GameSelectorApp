@@ -18,7 +18,7 @@ const firebaseConfig = {
 //This initializes Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const userCol = collection(db,'UserList');
+const userCol = collection(db,'GamersList');
 
 export default class UserList extends React.Component{
 state={
@@ -39,7 +39,9 @@ gameSnapshot.forEach(doc=>{
     const videoGame = {
         id:doc.id,
         name: doc.data().name,
+        image:doc.data().image,
         Favorite: doc.data().Favorite
+
     }
     
     userGames.push(videoGame)
@@ -67,6 +69,7 @@ updateGame = async game =>{
 
     await setDoc(gameDoc,{
         name:game.name,
+        image:game.image,
         Favorite:game.Favorite
     })
 
