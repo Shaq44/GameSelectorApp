@@ -7,6 +7,10 @@ import Home from './Pages/Home';
 
 
  export default class App extends Component {
+
+  componentDidMount(){
+    console.log(process.env.REACT_APP_API_KEY);
+  }
    
    
 
