@@ -1,8 +1,8 @@
 import React from "react";
 import { initializeApp } from "@firebase/app";
-import { getFirestore,collection, getDocs, deleteDoc,doc, setDoc, addDoc, connectFirestoreEmulator } from "@firebase/firestore";
+import { getFirestore,collection, getDocs, deleteDoc,doc, setDoc, } from "@firebase/firestore";
 import RemoveGame from "../Components/GameList";
-import GameList from "../Components/GameList";
+
 
 
 //This is my webapps Firebase configutration
